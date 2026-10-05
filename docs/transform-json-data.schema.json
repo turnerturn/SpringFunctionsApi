@@ -1,0 +1,396 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "transform-json-data",
+  "description": "Structural schema; runtime additionally enforces byte limits, pointers, reference ordering and destination policy.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "data": {},
+    "steps": {
+      "type": "array",
+      "maxItems": 32,
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "type": {
+                "const": "reference"
+              },
+              "id": {
+                "type": "string"
+              },
+              "value": {}
+            },
+            "required": [
+              "type",
+              "id",
+              "value"
+            ]
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "type": {
+                "const": "fetch"
+              },
+              "id": {
+                "type": "string"
+              },
+              "baseUrl": {
+                "type": "string"
+              },
+              "path": {
+                "type": "string"
+              },
+              "parameters": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string",
+                  "pattern": "^(|/.*)$",
+                  "maxLength": 1024
+                }
+              },
+              "format": {
+                "enum": [
+                  "json",
+                  "xml"
+                ]
+              },
+              "timeoutMs": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 10000
+              },
+              "query": {
+                "type": "object",
+                "maxProperties": 16,
+                "propertyNames": {
+                  "pattern": "^[A-Za-z0-9_-]{1,64}$"
+                },
+                "additionalProperties": {
+                  "type": [
+                    "string",
+                    "number",
+                    "boolean"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "type",
+              "id",
+              "baseUrl",
+              "path"
+            ]
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "type": {
+                "const": "set"
+              },
+              "path": {
+                "type": "string",
+                "pattern": "^(|/.*)$",
+                "maxLength": 1024
+              },
+              "value": {}
+            },
+            "required": [
+              "type",
+              "path",
+              "value"
+            ]
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "type": {
+                "const": "copy"
+              },
+              "from": {
+                "type": "string",
+                "pattern": "^(|/.*)$",
+                "maxLength": 1024
+              },
+              "path": {
+                "type": "string",
+                "pattern": "^(|/.*)$",
+                "maxLength": 1024
+              }
+            },
+            "required": [
+              "type",
+              "from",
+              "path"
+            ]
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "type": {
+                "const": "remove"
+              },
+              "path": {
+                "type": "string",
+                "pattern": "^(|/.*)$",
+                "maxLength": 1024
+              }
+            },
+            "required": [
+              "type",
+              "path"
+            ]
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "type": {
+                "const": "bind"
+              },
+              "reference": {
+                "type": "string"
+              },
+              "from": {
+                "type": "string",
+                "pattern": "^(|/.*)$",
+                "maxLength": 1024
+              },
+              "path": {
+                "type": "string",
+                "pattern": "^(|/.*)$",
+                "maxLength": 1024
+              }
+            },
+            "required": [
+              "type",
+              "reference",
+              "from",
+              "path"
+            ]
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "type": {
+                "const": "merge"
+              },
+              "reference": {
+                "type": "string"
+              },
+              "from": {
+                "type": "string",
+                "pattern": "^(|/.*)$",
+                "maxLength": 1024
+              },
+              "path": {
+                "type": "string",
+                "pattern": "^(|/.*)$",
+                "maxLength": 1024
+              }
+            },
+            "required": [
+              "type",
+              "from",
+              "path"
+            ]
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "type": {
+                "const": "template"
+              },
+              "bindings": {
+                "type": "object",
+                "maxProperties": 64,
+                "additionalProperties": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^(|/.*)$",
+                      "maxLength": 1024
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "reference": {
+                          "type": "string"
+                        },
+                        "path": {
+                          "type": "string",
+                          "pattern": "^(|/.*)$",
+                          "maxLength": 1024
+                        }
+                      },
+                      "required": [
+                        "reference",
+                        "path"
+                      ]
+                    }
+                  ]
+                }
+              },
+              "template": {}
+            },
+            "required": [
+              "type",
+              "bindings",
+              "template"
+            ]
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "type": {
+                "const": "map"
+              },
+              "items": {
+                "type": "string",
+                "pattern": "^(|/.*)$",
+                "maxLength": 1024
+              },
+              "bindings": {
+                "type": "object",
+                "maxProperties": 64,
+                "additionalProperties": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^(|/.*)$",
+                      "maxLength": 1024
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "reference": {
+                          "type": "string"
+                        },
+                        "path": {
+                          "type": "string",
+                          "pattern": "^(|/.*)$",
+                          "maxLength": 1024
+                        }
+                      },
+                      "required": [
+                        "reference",
+                        "path"
+                      ]
+                    }
+                  ]
+                }
+              },
+              "template": {}
+            },
+            "required": [
+              "type",
+              "items",
+              "bindings",
+              "template"
+            ]
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "type": {
+                "const": "decorate"
+              },
+              "items": {
+                "type": "string",
+                "pattern": "^(|/.*)$",
+                "maxLength": 1024
+              },
+              "reference": {
+                "type": "string"
+              },
+              "referenceItems": {
+                "type": "string",
+                "pattern": "^(|/.*)$",
+                "maxLength": 1024
+              },
+              "itemKey": {
+                "type": "string",
+                "pattern": "^(|/.*)$",
+                "maxLength": 1024
+              },
+              "referenceKey": {
+                "type": "string",
+                "pattern": "^(|/.*)$",
+                "maxLength": 1024
+              },
+              "assign": {
+                "type": "object",
+                "minProperties": 1,
+                "additionalProperties": {
+                  "oneOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "from": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "enum": [
+                            "value",
+                            "string",
+                            "integer",
+                            "number",
+                            "boolean"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "from"
+                      ]
+                    }
+                  ]
+                }
+              },
+              "indexBase": {
+                "enum": [
+                  0,
+                  1
+                ]
+              }
+            },
+            "required": [
+              "type",
+              "items",
+              "reference",
+              "referenceItems",
+              "itemKey",
+              "referenceKey",
+              "assign"
+            ]
+          }
+        ]
+      }
+    },
+    "totalTimeoutMs": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 30000
+    }
+  },
+  "required": [
+    "data",
+    "steps"
+  ]
+}

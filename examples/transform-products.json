@@ -1,0 +1,39 @@
+{
+  "data": {
+    "ip": "127.0.0.1",
+    "products": [
+      {
+        "productCode": "P001"
+      },
+      {
+        "productCode": "UNKNOWN",
+        "acculoadProductDirectoryPosition": 99
+      }
+    ]
+  },
+  "steps": [
+    {
+      "type": "reference",
+      "id": "directory",
+      "value": {
+        "products": [
+          {
+            "productCode": "P001",
+            "position": 3
+          }
+        ]
+      }
+    },
+    {
+      "type": "decorate",
+      "items": "/products",
+      "reference": "directory",
+      "referenceItems": "/products",
+      "itemKey": "/productCode",
+      "referenceKey": "/productCode",
+      "assign": {
+        "/acculoadProductDirectoryPosition": "/position"
+      }
+    }
+  ]
+}

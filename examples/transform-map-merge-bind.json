@@ -1,0 +1,46 @@
+{
+  "data": {
+    "products": [
+      {
+        "productCode": "P001",
+        "name": "Diesel"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "type": "reference",
+      "id": "config",
+      "value": {
+        "defaults": {
+          "enabled": true
+        },
+        "site": "Terminal A"
+      }
+    },
+    {
+      "type": "merge",
+      "path": "",
+      "reference": "config",
+      "from": "/defaults"
+    },
+    {
+      "type": "bind",
+      "reference": "config",
+      "from": "/site",
+      "path": "/site"
+    },
+    {
+      "type": "map",
+      "items": "/products",
+      "bindings": {
+        "code": "/productCode",
+        "name": "/name"
+      },
+      "template": {
+        "code": "<code>",
+        "displayName": "<name>"
+      }
+    }
+  ]
+}

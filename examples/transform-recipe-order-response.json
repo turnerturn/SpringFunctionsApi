@@ -1,0 +1,23 @@
+{
+  "status": "transformed",
+  "executedSteps": 4,
+  "data": {
+    "orderId": "ORDER-1001",
+    "quantity": 2,
+    "customer": {
+      "name": "Example Customer"
+    },
+    "recipe": {
+      "name": "Classic Margherita Pizza",
+      "notes": "Bake when collected",
+      "ingredients": [
+        "Pizza dough",
+        "Tomato sauce",
+        "Fresh mozzarella cheese",
+        "Fresh basil leaves",
+        "Olive oil",
+        "Salt and pepper to taste"
+      ]
+    }
+  }
+}

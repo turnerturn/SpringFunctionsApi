@@ -1,0 +1,41 @@
+{
+  "data": {
+    "ip": "127.0.0.1",
+    "products": [
+      {
+        "productCode": "P001"
+      },
+      {
+        "productCode": "UNKNOWN",
+        "acculoadProductDirectoryPosition": 99
+      }
+    ]
+  },
+  "steps": [
+    {
+      "type": "fetch",
+      "id": "directory",
+      "baseUrl": "http://127.0.0.1:8090",
+      "path": "/api/acculoads/{ip}/productDirectory",
+      "parameters": {
+        "ip": "/ip"
+      },
+      "format": "xml",
+      "timeoutMs": 3000
+    },
+    {
+      "type": "decorate",
+      "items": "/products",
+      "reference": "directory",
+      "referenceItems": "/productDirectory/product",
+      "itemKey": "/productCode",
+      "referenceKey": "/productCode",
+      "assign": {
+        "/acculoadProductDirectoryPosition": {
+          "from": "/position",
+          "type": "integer"
+        }
+      }
+    }
+  ]
+}

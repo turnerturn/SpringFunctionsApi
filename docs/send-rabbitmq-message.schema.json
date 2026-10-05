@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "send-rabbitmq-message",
+  "description": "Structural schema; runtime additionally enforces byte limits, pointers, reference ordering and destination policy.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "broker": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "host": {
+          "type": "string"
+        },
+        "port": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65535
+        },
+        "virtualHost": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "passwordEnv": {
+          "const": "RABBITMQ_PASSWORD"
+        },
+        "tls": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "host",
+        "username",
+        "passwordEnv"
+      ]
+    },
+    "destination": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "queue": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "queue"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "exchange": {
+              "type": "string"
+            },
+            "routingKey": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "exchange",
+            "routingKey"
+          ]
+        }
+      ]
+    },
+    "message": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "data": {},
+        "text": {
+          "type": "string"
+        },
+        "bodyBase64": {
+          "type": "string"
+        },
+        "headers": {
+          "type": "object"
+        },
+        "properties": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "contentType": {
+              "type": "string"
+            },
+            "contentEncoding": {
+              "type": "string"
+            },
+            "correlationId": {
+              "type": "string"
+            },
+            "messageId": {
+              "type": "string"
+            },
+            "expiration": {
+              "type": "string"
+            },
+            "deliveryMode": {
+              "enum": [
+                1,
+                2
+              ]
+            }
+          },
+          "required": []
+        }
+      },
+      "required": [],
+      "oneOf": [
+        {
+          "required": [
+            "data"
+          ]
+        },
+        {
+          "required": [
+            "text"
+          ]
+        },
+        {
+          "required": [
+            "bodyBase64"
+          ]
+        }
+      ]
+    },
+    "confirmTimeoutMs": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10000
+    }
+  },
+  "required": [
+    "broker",
+    "destination",
+    "message"
+  ]
+}

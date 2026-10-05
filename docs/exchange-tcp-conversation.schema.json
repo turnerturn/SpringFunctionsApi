@@ -1,0 +1,197 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:functions-api:exchangeTcpConversation:request",
+  "title": "exchangeTcpConversation request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "host",
+    "port",
+    "steps"
+  ],
+  "properties": {
+    "host": {
+      "type": "string",
+      "pattern": "^(?:localhost|(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|0?[0-9]{1,2})(?:\\.(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|0?[0-9]{1,2})){3})$"
+    },
+    "port": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 65535
+    },
+    "connectTimeoutMs": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10000,
+      "default": 3000
+    },
+    "totalTimeoutMs": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 60000,
+      "default": 10000
+    },
+    "maxExecutions": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1024,
+      "default": 256
+    },
+    "start": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,64}$"
+    },
+    "steps": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 256,
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "action",
+              "text"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_-]{1,64}$"
+              },
+              "action": {
+                "const": "send"
+              },
+              "text": {
+                "type": "string",
+                "maxLength": 8192,
+                "pattern": "^[^\\r\\n]*$"
+              },
+              "timeoutMs": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 60000,
+                "default": 1000
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "action"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_-]{1,64}$"
+              },
+              "action": {
+                "const": "wait"
+              },
+              "timeoutMs": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 60000,
+                "default": 1000
+              },
+              "onTimeout": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_-]{1,64}$"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "action",
+              "when",
+              "otherwise"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_-]{1,64}$"
+              },
+              "action": {
+                "const": "fork"
+              },
+              "when": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 16,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "regex",
+                    "goto"
+                  ],
+                  "properties": {
+                    "regex": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 256
+                    },
+                    "goto": {
+                      "type": "string",
+                      "pattern": "^[A-Za-z0-9_-]{1,64}$"
+                    }
+                  }
+                }
+              },
+              "otherwise": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_-]{1,64}$"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "action",
+              "goto"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_-]{1,64}$"
+              },
+              "action": {
+                "const": "goto"
+              },
+              "goto": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_-]{1,64}$"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "action"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_-]{1,64}$"
+              },
+              "action": {
+                "const": "end"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "$comment": "Java also validates unique IDs, existing jump targets, RE2/J syntax and program budgets, whitespace-only regex rejection, and UTF-8 send byte length <=8192."
+}

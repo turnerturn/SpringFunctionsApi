@@ -1,0 +1,4 @@
+{
+  "command": "shutdown",
+  "serverId": "REPLACE_WITH_RETURNED_SERVER_ID"
+}

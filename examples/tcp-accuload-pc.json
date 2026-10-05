@@ -1,0 +1,88 @@
+{
+  "host": "localhost",
+  "port": 9000,
+  "connectTimeoutMs": 3000,
+  "totalTimeoutMs": 10000,
+  "maxExecutions": 32,
+  "start": "pc-send",
+  "steps": [
+    {
+      "id": "pc-send",
+      "action": "send",
+      "text": "13PC 01 001 1"
+    },
+    {
+      "id": "pc-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pc-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PC 01 001 1 Load Arm 1$",
+          "goto": "lo-send"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "lo-send",
+      "action": "send",
+      "text": "13LO"
+    },
+    {
+      "id": "lo-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "lo-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13OK$",
+          "goto": "pv-send"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pv-send",
+      "action": "send",
+      "text": "13PV 01 001"
+    },
+    {
+      "id": "pv-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pv-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PV 01 001 1 Load Arm 1$",
+          "goto": "success"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "success",
+      "action": "end"
+    },
+    {
+      "id": "unexpected-reply",
+      "action": "end"
+    },
+    {
+      "id": "timed-out",
+      "action": "end"
+    }
+  ]
+}

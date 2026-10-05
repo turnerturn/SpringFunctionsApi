@@ -1,0 +1,58 @@
+{
+  "data": {
+    "orderId": "ORDER-1001",
+    "quantity": 2,
+    "customer": {
+      "name": "Example Customer"
+    },
+    "recipe": {
+      "name": "Classic Margherita Pizza",
+      "notes": "Bake when collected",
+      "ingredients": [
+        "stale ingredient"
+      ]
+    }
+  },
+  "steps": [
+    {
+      "type": "fetch",
+      "id": "recipes",
+      "baseUrl": "https://dummyjson.com",
+      "path": "/recipes",
+      "query": {
+        "limit": 0,
+        "select": "name,ingredients"
+      },
+      "format": "json",
+      "timeoutMs": 10000
+    },
+    {
+      "type": "template",
+      "bindings": {
+        "order": ""
+      },
+      "template": {
+        "orders": [
+          "<order>"
+        ]
+      }
+    },
+    {
+      "type": "decorate",
+      "items": "/orders",
+      "reference": "recipes",
+      "referenceItems": "/recipes",
+      "itemKey": "/recipe/name",
+      "referenceKey": "/name",
+      "assign": {
+        "/recipe/ingredients": "/ingredients"
+      }
+    },
+    {
+      "type": "copy",
+      "from": "/orders/0",
+      "path": ""
+    }
+  ],
+  "totalTimeoutMs": 15000
+}

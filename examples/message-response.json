@@ -1,0 +1,29 @@
+{
+  "status": "message",
+  "settlement": "requeue",
+  "message": {
+    "bodyBase64": "aGVsbG8=",
+    "redelivered": false,
+    "exchange": "",
+    "routingKey": "example.existing.queue",
+    "remainingMessageCount": 0,
+    "properties": {
+      "contentType": "text/plain",
+      "contentEncoding": "utf-8",
+      "correlationId": null,
+      "replyTo": null,
+      "messageId": null,
+      "type": null,
+      "appId": null,
+      "userId": null,
+      "expiration": null,
+      "deliveryMode": null,
+      "priority": null,
+      "timestamp": null
+    },
+    "headers": {
+      "source": "example",
+      "attempt": 1
+    }
+  }
+}

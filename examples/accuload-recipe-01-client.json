@@ -1,0 +1,1144 @@
+{
+  "host": "localhost",
+  "port": 9000,
+  "connectTimeoutMs": 3000,
+  "totalTimeoutMs": 55000,
+  "maxExecutions": 160,
+  "start": "pc-recipe-arm-send",
+  "steps": [
+    {
+      "id": "pc-recipe-arm-send",
+      "action": "send",
+      "text": "13PC 01 001 1"
+    },
+    {
+      "id": "pc-recipe-arm-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pc-recipe-arm-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PC 01 001 1(?:\\s.*)?$",
+          "goto": "pc-recipe-name-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pc-recipe-name-send",
+      "action": "send",
+      "text": "13PC 01 002 BLEND01"
+    },
+    {
+      "id": "pc-recipe-name-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pc-recipe-name-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PC 01 002 BLEND01(?:\\s.*)?$",
+          "goto": "pc-hm-classification-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pc-hm-classification-send",
+      "action": "send",
+      "text": "13PC 01 003 0"
+    },
+    {
+      "id": "pc-hm-classification-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pc-hm-classification-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PC 01 003 0(?:\\s.*)?$",
+          "goto": "pc-delivery-mode-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pc-delivery-mode-send",
+      "action": "send",
+      "text": "13PC 01 090 1"
+    },
+    {
+      "id": "pc-delivery-mode-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pc-delivery-mode-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PC 01 090 1(?:\\s.*)?$",
+          "goto": "pc-position-1-product-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pc-position-1-product-send",
+      "action": "send",
+      "text": "13PC 01 004 1"
+    },
+    {
+      "id": "pc-position-1-product-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pc-position-1-product-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PC 01 004 1(?:\\s.*)?$",
+          "goto": "pc-position-1-percentage-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pc-position-1-percentage-send",
+      "action": "send",
+      "text": "13PC 01 005 060.0"
+    },
+    {
+      "id": "pc-position-1-percentage-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pc-position-1-percentage-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PC 01 005 060\\.0(?:\\s.*)?$",
+          "goto": "pc-position-2-product-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pc-position-2-product-send",
+      "action": "send",
+      "text": "13PC 01 006 2"
+    },
+    {
+      "id": "pc-position-2-product-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pc-position-2-product-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PC 01 006 2(?:\\s.*)?$",
+          "goto": "pc-position-2-percentage-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pc-position-2-percentage-send",
+      "action": "send",
+      "text": "13PC 01 007 025.0"
+    },
+    {
+      "id": "pc-position-2-percentage-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pc-position-2-percentage-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PC 01 007 025\\.0(?:\\s.*)?$",
+          "goto": "pc-position-3-product-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pc-position-3-product-send",
+      "action": "send",
+      "text": "13PC 01 008 3"
+    },
+    {
+      "id": "pc-position-3-product-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pc-position-3-product-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PC 01 008 3(?:\\s.*)?$",
+          "goto": "pc-position-3-percentage-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pc-position-3-percentage-send",
+      "action": "send",
+      "text": "13PC 01 009 010.0"
+    },
+    {
+      "id": "pc-position-3-percentage-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pc-position-3-percentage-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PC 01 009 010\\.0(?:\\s.*)?$",
+          "goto": "pc-position-4-product-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pc-position-4-product-send",
+      "action": "send",
+      "text": "13PC 01 010 4"
+    },
+    {
+      "id": "pc-position-4-product-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pc-position-4-product-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PC 01 010 4(?:\\s.*)?$",
+          "goto": "pc-position-4-percentage-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pc-position-4-percentage-send",
+      "action": "send",
+      "text": "13PC 01 011 005.0"
+    },
+    {
+      "id": "pc-position-4-percentage-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pc-position-4-percentage-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PC 01 011 005\\.0(?:\\s.*)?$",
+          "goto": "pc-position-5-product-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pc-position-5-product-send",
+      "action": "send",
+      "text": "13PC 01 012 5"
+    },
+    {
+      "id": "pc-position-5-product-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pc-position-5-product-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PC 01 012 5(?:\\s.*)?$",
+          "goto": "pc-position-5-percentage-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pc-position-5-percentage-send",
+      "action": "send",
+      "text": "13PC 01 013 000.0"
+    },
+    {
+      "id": "pc-position-5-percentage-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pc-position-5-percentage-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PC 01 013 000\\.0(?:\\s.*)?$",
+          "goto": "pc-position-6-product-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pc-position-6-product-send",
+      "action": "send",
+      "text": "13PC 01 014 6"
+    },
+    {
+      "id": "pc-position-6-product-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pc-position-6-product-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PC 01 014 6(?:\\s.*)?$",
+          "goto": "pc-position-6-percentage-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pc-position-6-percentage-send",
+      "action": "send",
+      "text": "13PC 01 015 000.0"
+    },
+    {
+      "id": "pc-position-6-percentage-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pc-position-6-percentage-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PC 01 015 000\\.0(?:\\s.*)?$",
+          "goto": "pc-clean-line-deduct-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pc-clean-line-deduct-send",
+      "action": "send",
+      "text": "13PC 01 016 1"
+    },
+    {
+      "id": "pc-clean-line-deduct-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pc-clean-line-deduct-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PC 01 016 1(?:\\s.*)?$",
+          "goto": "pc-clean-line-amount-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pc-clean-line-amount-send",
+      "action": "send",
+      "text": "13PC AR 221 050"
+    },
+    {
+      "id": "pc-clean-line-amount-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pc-clean-line-amount-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PC AR 221 050(?:\\s.*)?$",
+          "goto": "pc-clean-line-product-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pc-clean-line-product-send",
+      "action": "send",
+      "text": "13PC AR 222 0"
+    },
+    {
+      "id": "pc-clean-line-product-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pc-clean-line-product-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PC AR 222 0(?:\\s.*)?$",
+          "goto": "pc-clean-line-alarm-limit-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pc-clean-line-alarm-limit-send",
+      "action": "send",
+      "text": "13PC AR 223 00"
+    },
+    {
+      "id": "pc-clean-line-alarm-limit-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pc-clean-line-alarm-limit-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PC AR 223 00(?:\\s.*)?$",
+          "goto": "pc-clean-line-blend-adjust-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pc-clean-line-blend-adjust-send",
+      "action": "send",
+      "text": "13PC AR 230 0"
+    },
+    {
+      "id": "pc-clean-line-blend-adjust-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pc-clean-line-blend-adjust-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PC AR 230 0(?:\\s.*)?$",
+          "goto": "lo-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "lo-send",
+      "action": "send",
+      "text": "13LO"
+    },
+    {
+      "id": "lo-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "lo-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13OK(?:\\s.*)?$",
+          "goto": "pv-recipe-arm-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pv-recipe-arm-send",
+      "action": "send",
+      "text": "13PV 01 001"
+    },
+    {
+      "id": "pv-recipe-arm-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pv-recipe-arm-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PV 01 001 1(?:\\s.*)?$",
+          "goto": "pv-recipe-name-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pv-recipe-name-send",
+      "action": "send",
+      "text": "13PV 01 002"
+    },
+    {
+      "id": "pv-recipe-name-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pv-recipe-name-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PV 01 002 BLEND01(?:\\s.*)?$",
+          "goto": "pv-hm-classification-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pv-hm-classification-send",
+      "action": "send",
+      "text": "13PV 01 003"
+    },
+    {
+      "id": "pv-hm-classification-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pv-hm-classification-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PV 01 003 0(?:\\s.*)?$",
+          "goto": "pv-delivery-mode-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pv-delivery-mode-send",
+      "action": "send",
+      "text": "13PV 01 090"
+    },
+    {
+      "id": "pv-delivery-mode-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pv-delivery-mode-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PV 01 090 1(?:\\s.*)?$",
+          "goto": "pv-position-1-product-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pv-position-1-product-send",
+      "action": "send",
+      "text": "13PV 01 004"
+    },
+    {
+      "id": "pv-position-1-product-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pv-position-1-product-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PV 01 004 1(?:\\s.*)?$",
+          "goto": "pv-position-1-percentage-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pv-position-1-percentage-send",
+      "action": "send",
+      "text": "13PV 01 005"
+    },
+    {
+      "id": "pv-position-1-percentage-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pv-position-1-percentage-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PV 01 005 060\\.0(?:\\s.*)?$",
+          "goto": "pv-position-2-product-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pv-position-2-product-send",
+      "action": "send",
+      "text": "13PV 01 006"
+    },
+    {
+      "id": "pv-position-2-product-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pv-position-2-product-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PV 01 006 2(?:\\s.*)?$",
+          "goto": "pv-position-2-percentage-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pv-position-2-percentage-send",
+      "action": "send",
+      "text": "13PV 01 007"
+    },
+    {
+      "id": "pv-position-2-percentage-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pv-position-2-percentage-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PV 01 007 025\\.0(?:\\s.*)?$",
+          "goto": "pv-position-3-product-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pv-position-3-product-send",
+      "action": "send",
+      "text": "13PV 01 008"
+    },
+    {
+      "id": "pv-position-3-product-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pv-position-3-product-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PV 01 008 3(?:\\s.*)?$",
+          "goto": "pv-position-3-percentage-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pv-position-3-percentage-send",
+      "action": "send",
+      "text": "13PV 01 009"
+    },
+    {
+      "id": "pv-position-3-percentage-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pv-position-3-percentage-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PV 01 009 010\\.0(?:\\s.*)?$",
+          "goto": "pv-position-4-product-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pv-position-4-product-send",
+      "action": "send",
+      "text": "13PV 01 010"
+    },
+    {
+      "id": "pv-position-4-product-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pv-position-4-product-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PV 01 010 4(?:\\s.*)?$",
+          "goto": "pv-position-4-percentage-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pv-position-4-percentage-send",
+      "action": "send",
+      "text": "13PV 01 011"
+    },
+    {
+      "id": "pv-position-4-percentage-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pv-position-4-percentage-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PV 01 011 005\\.0(?:\\s.*)?$",
+          "goto": "pv-position-5-product-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pv-position-5-product-send",
+      "action": "send",
+      "text": "13PV 01 012"
+    },
+    {
+      "id": "pv-position-5-product-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pv-position-5-product-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PV 01 012 5(?:\\s.*)?$",
+          "goto": "pv-position-5-percentage-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pv-position-5-percentage-send",
+      "action": "send",
+      "text": "13PV 01 013"
+    },
+    {
+      "id": "pv-position-5-percentage-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pv-position-5-percentage-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PV 01 013 000\\.0(?:\\s.*)?$",
+          "goto": "pv-position-6-product-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pv-position-6-product-send",
+      "action": "send",
+      "text": "13PV 01 014"
+    },
+    {
+      "id": "pv-position-6-product-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pv-position-6-product-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PV 01 014 6(?:\\s.*)?$",
+          "goto": "pv-position-6-percentage-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pv-position-6-percentage-send",
+      "action": "send",
+      "text": "13PV 01 015"
+    },
+    {
+      "id": "pv-position-6-percentage-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pv-position-6-percentage-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PV 01 015 000\\.0(?:\\s.*)?$",
+          "goto": "pv-clean-line-deduct-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pv-clean-line-deduct-send",
+      "action": "send",
+      "text": "13PV 01 016"
+    },
+    {
+      "id": "pv-clean-line-deduct-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pv-clean-line-deduct-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PV 01 016 1(?:\\s.*)?$",
+          "goto": "pv-clean-line-amount-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pv-clean-line-amount-send",
+      "action": "send",
+      "text": "13PV AR 221"
+    },
+    {
+      "id": "pv-clean-line-amount-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pv-clean-line-amount-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PV AR 221 050(?:\\s.*)?$",
+          "goto": "pv-clean-line-product-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pv-clean-line-product-send",
+      "action": "send",
+      "text": "13PV AR 222"
+    },
+    {
+      "id": "pv-clean-line-product-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pv-clean-line-product-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PV AR 222 0(?:\\s.*)?$",
+          "goto": "pv-clean-line-alarm-limit-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pv-clean-line-alarm-limit-send",
+      "action": "send",
+      "text": "13PV AR 223"
+    },
+    {
+      "id": "pv-clean-line-alarm-limit-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pv-clean-line-alarm-limit-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PV AR 223 00(?:\\s.*)?$",
+          "goto": "pv-clean-line-blend-adjust-send"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "pv-clean-line-blend-adjust-send",
+      "action": "send",
+      "text": "13PV AR 230"
+    },
+    {
+      "id": "pv-clean-line-blend-adjust-wait",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "pv-clean-line-blend-adjust-check",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "^13PV AR 230 0(?:\\s.*)?$",
+          "goto": "success"
+        },
+        {
+          "regex": "^13NO[0-9]{2}(?:\\s.*)?$",
+          "goto": "device-rejected"
+        }
+      ],
+      "otherwise": "unexpected-reply"
+    },
+    {
+      "id": "success",
+      "action": "end"
+    },
+    {
+      "id": "device-rejected",
+      "action": "end"
+    },
+    {
+      "id": "unexpected-reply",
+      "action": "end"
+    },
+    {
+      "id": "timed-out",
+      "action": "end"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "host": "localhost",
+  "port": 5672,
+  "virtualHost": "/",
+  "username": "admin",
+  "passwordEnv": "RABBITMQ_PASSWORD",
+  "queue": "coffeehouse.orders",
+  "settlement": "acknowledge",
+  "pollTimeoutMs": 0,
+  "tls": false
+}

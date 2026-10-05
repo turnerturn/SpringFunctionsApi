@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:functions-api:tcpServer:request",
+  "title": "tcpServer request",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "command"
+      ],
+      "properties": {
+        "command": {
+          "const": "start"
+        },
+        "port": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535,
+          "default": 0
+        },
+        "timeoutMs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 60000,
+          "default": 30000
+        },
+        "idleTimeoutMs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000,
+          "default": 1000
+        },
+        "maxConnections": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 64,
+          "default": 16
+        },
+        "maxMessages": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1024,
+          "default": 256
+        },
+        "commands": {
+          "type": "array",
+          "maxItems": 32,
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "regex",
+                  "action"
+                ],
+                "properties": {
+                  "regex": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 256
+                  },
+                  "action": {
+                    "const": "echo"
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "regex",
+                  "action"
+                ],
+                "properties": {
+                  "regex": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 256
+                  },
+                  "action": {
+                    "const": "shutdown"
+                  },
+                  "response": {
+                    "type": "string",
+                    "maxLength": 8192,
+                    "pattern": "^[^\\r\\n]*$"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "rules": {
+          "type": "array",
+          "maxItems": 64,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "regex",
+              "response"
+            ],
+            "properties": {
+              "regex": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "response": {
+                "type": "string",
+                "maxLength": 8192,
+                "pattern": "^[^\\r\\n]*$"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "command",
+        "serverId"
+      ],
+      "properties": {
+        "command": {
+          "enum": [
+            "status",
+            "shutdown"
+          ]
+        },
+        "serverId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "\\S"
+        }
+      }
+    }
+  ],
+  "$comment": "Java also validates RE2/J syntax and program budgets, nonblank regexes, UTF-8 response validity and byte length <=8192."
+}

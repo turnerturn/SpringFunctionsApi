@@ -1,0 +1,72 @@
+{
+  "data": {
+    "orderId": "ORDER-1001",
+    "quantity": 2,
+    "customer": {
+      "name": "Example Customer"
+    },
+    "recipe": {
+      "name": "Classic Margherita Pizza",
+      "notes": "Bake when collected",
+      "ingredients": [
+        "stale ingredient"
+      ]
+    }
+  },
+  "steps": [
+    {
+      "type": "reference",
+      "id": "recipes",
+      "value": {
+        "recipes": [
+          {
+            "name": "Classic Margherita Pizza",
+            "ingredients": [
+              "Pizza dough",
+              "Tomato sauce",
+              "Fresh mozzarella cheese",
+              "Fresh basil leaves",
+              "Olive oil",
+              "Salt and pepper to taste"
+            ]
+          },
+          {
+            "name": "Chocolate Chip Cookies",
+            "ingredients": [
+              "Flour",
+              "Chocolate chips"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "type": "template",
+      "bindings": {
+        "order": ""
+      },
+      "template": {
+        "orders": [
+          "<order>"
+        ]
+      }
+    },
+    {
+      "type": "decorate",
+      "items": "/orders",
+      "reference": "recipes",
+      "referenceItems": "/recipes",
+      "itemKey": "/recipe/name",
+      "referenceKey": "/name",
+      "assign": {
+        "/recipe/ingredients": "/ingredients"
+      }
+    },
+    {
+      "type": "copy",
+      "from": "/orders/0",
+      "path": ""
+    }
+  ],
+  "totalTimeoutMs": 15000
+}

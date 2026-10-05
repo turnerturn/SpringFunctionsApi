@@ -1,0 +1,189 @@
+{
+  "command": "start",
+  "port": 9000,
+  "timeoutMs": 60000,
+  "idleTimeoutMs": 10000,
+  "maxConnections": 16,
+  "maxMessages": 256,
+  "commands": [
+    {
+      "regex": "^SHUTDOWN$",
+      "action": "shutdown",
+      "response": "bye"
+    }
+  ],
+  "rules": [
+    {
+      "regex": "^13PC 01 001 1$",
+      "response": "13PC 01 001 1 Load Arm 1"
+    },
+    {
+      "regex": "^13PC 01 002 BLEND01$",
+      "response": "13PC 01 002 BLEND01 Recipe Name"
+    },
+    {
+      "regex": "^13PC 01 003 0$",
+      "response": "13PC 01 003 0 HM Classification"
+    },
+    {
+      "regex": "^13PC 01 090 1$",
+      "response": "13PC 01 090 1 Sequential Delivery"
+    },
+    {
+      "regex": "^13PC 01 004 1$",
+      "response": "13PC 01 004 1 Position 1 Product"
+    },
+    {
+      "regex": "^13PC 01 005 060\\.0$",
+      "response": "13PC 01 005 060.0 Position 1 Percentage"
+    },
+    {
+      "regex": "^13PC 01 006 2$",
+      "response": "13PC 01 006 2 Position 2 Product"
+    },
+    {
+      "regex": "^13PC 01 007 025\\.0$",
+      "response": "13PC 01 007 025.0 Position 2 Percentage"
+    },
+    {
+      "regex": "^13PC 01 008 3$",
+      "response": "13PC 01 008 3 Position 3 Product"
+    },
+    {
+      "regex": "^13PC 01 009 010\\.0$",
+      "response": "13PC 01 009 010.0 Position 3 Percentage"
+    },
+    {
+      "regex": "^13PC 01 010 4$",
+      "response": "13PC 01 010 4 Position 4 Product"
+    },
+    {
+      "regex": "^13PC 01 011 005\\.0$",
+      "response": "13PC 01 011 005.0 Position 4 Percentage"
+    },
+    {
+      "regex": "^13PC 01 012 5$",
+      "response": "13PC 01 012 5 Position 5 Product"
+    },
+    {
+      "regex": "^13PC 01 013 000\\.0$",
+      "response": "13PC 01 013 000.0 Position 5 Percentage"
+    },
+    {
+      "regex": "^13PC 01 014 6$",
+      "response": "13PC 01 014 6 Position 6 Product"
+    },
+    {
+      "regex": "^13PC 01 015 000\\.0$",
+      "response": "13PC 01 015 000.0 Position 6 Percentage"
+    },
+    {
+      "regex": "^13PC 01 016 1$",
+      "response": "13PC 01 016 1 Clean Line Deduct"
+    },
+    {
+      "regex": "^13PC AR 221 050$",
+      "response": "13PC AR 221 050 Clean Line Amount"
+    },
+    {
+      "regex": "^13PC AR 222 0$",
+      "response": "13PC AR 222 0 Clean Line Product"
+    },
+    {
+      "regex": "^13PC AR 223 00$",
+      "response": "13PC AR 223 00 Clean Line Alarm Limit"
+    },
+    {
+      "regex": "^13PC AR 230 0$",
+      "response": "13PC AR 230 0 Clean Line Blend Adjust"
+    },
+    {
+      "regex": "^13LO$",
+      "response": "13OK"
+    },
+    {
+      "regex": "^13PV 01 001$",
+      "response": "13PV 01 001 1 Load Arm 1"
+    },
+    {
+      "regex": "^13PV 01 002$",
+      "response": "13PV 01 002 BLEND01 Recipe Name"
+    },
+    {
+      "regex": "^13PV 01 003$",
+      "response": "13PV 01 003 0 HM Classification"
+    },
+    {
+      "regex": "^13PV 01 090$",
+      "response": "13PV 01 090 1 Sequential Delivery"
+    },
+    {
+      "regex": "^13PV 01 004$",
+      "response": "13PV 01 004 1 Position 1 Product"
+    },
+    {
+      "regex": "^13PV 01 005$",
+      "response": "13PV 01 005 060.0 Position 1 Percentage"
+    },
+    {
+      "regex": "^13PV 01 006$",
+      "response": "13PV 01 006 2 Position 2 Product"
+    },
+    {
+      "regex": "^13PV 01 007$",
+      "response": "13PV 01 007 025.0 Position 2 Percentage"
+    },
+    {
+      "regex": "^13PV 01 008$",
+      "response": "13PV 01 008 3 Position 3 Product"
+    },
+    {
+      "regex": "^13PV 01 009$",
+      "response": "13PV 01 009 010.0 Position 3 Percentage"
+    },
+    {
+      "regex": "^13PV 01 010$",
+      "response": "13PV 01 010 4 Position 4 Product"
+    },
+    {
+      "regex": "^13PV 01 011$",
+      "response": "13PV 01 011 005.0 Position 4 Percentage"
+    },
+    {
+      "regex": "^13PV 01 012$",
+      "response": "13PV 01 012 5 Position 5 Product"
+    },
+    {
+      "regex": "^13PV 01 013$",
+      "response": "13PV 01 013 000.0 Position 5 Percentage"
+    },
+    {
+      "regex": "^13PV 01 014$",
+      "response": "13PV 01 014 6 Position 6 Product"
+    },
+    {
+      "regex": "^13PV 01 015$",
+      "response": "13PV 01 015 000.0 Position 6 Percentage"
+    },
+    {
+      "regex": "^13PV 01 016$",
+      "response": "13PV 01 016 1 Clean Line Deduct"
+    },
+    {
+      "regex": "^13PV AR 221$",
+      "response": "13PV AR 221 050 Clean Line Amount"
+    },
+    {
+      "regex": "^13PV AR 222$",
+      "response": "13PV AR 222 0 Clean Line Product"
+    },
+    {
+      "regex": "^13PV AR 223$",
+      "response": "13PV AR 223 00 Clean Line Alarm Limit"
+    },
+    {
+      "regex": "^13PV AR 230$",
+      "response": "13PV AR 230 0 Clean Line Blend Adjust"
+    }
+  ]
+}

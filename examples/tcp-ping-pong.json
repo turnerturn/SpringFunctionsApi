@@ -1,0 +1,54 @@
+{
+  "host": "localhost",
+  "port": 9000,
+  "connectTimeoutMs": 3000,
+  "totalTimeoutMs": 10000,
+  "maxExecutions": 32,
+  "start": "ping",
+  "steps": [
+    {
+      "id": "ping",
+      "action": "send",
+      "text": "PING"
+    },
+    {
+      "id": "reply",
+      "action": "wait",
+      "timeoutMs": 2000,
+      "onTimeout": "timed-out"
+    },
+    {
+      "id": "decide",
+      "action": "fork",
+      "when": [
+        {
+          "regex": "(?i)^pong$",
+          "goto": "success"
+        }
+      ],
+      "otherwise": "unexpected"
+    },
+    {
+      "id": "success",
+      "action": "end"
+    },
+    {
+      "id": "unexpected",
+      "action": "send",
+      "text": "UNEXPECTED REPLY"
+    },
+    {
+      "id": "exit",
+      "action": "goto",
+      "goto": "failed"
+    },
+    {
+      "id": "timed-out",
+      "action": "end"
+    },
+    {
+      "id": "failed",
+      "action": "end"
+    }
+  ]
+}

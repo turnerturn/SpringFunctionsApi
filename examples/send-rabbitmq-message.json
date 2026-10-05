@@ -1,0 +1,26 @@
+{
+  "broker": {
+    "host": "localhost",
+    "port": 5672,
+    "virtualHost": "/",
+    "username": "admin",
+    "passwordEnv": "RABBITMQ_PASSWORD",
+    "tls": false
+  },
+  "destination": {
+    "queue": "coffeehouse.orders"
+  },
+  "message": {
+    "data": {
+      "event": "product.updated",
+      "productCode": "P001"
+    },
+    "headers": {
+      "source": "functions-api"
+    },
+    "properties": {
+      "deliveryMode": 2
+    }
+  },
+  "confirmTimeoutMs": 5000
+}

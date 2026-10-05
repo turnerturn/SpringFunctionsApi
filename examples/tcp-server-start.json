@@ -1,0 +1,29 @@
+{
+  "command": "start",
+  "port": 9000,
+  "timeoutMs": 30000,
+  "idleTimeoutMs": 1000,
+  "maxConnections": 16,
+  "maxMessages": 256,
+  "commands": [
+    {
+      "regex": "(?i)^SHUTDOWN$",
+      "action": "shutdown",
+      "response": "bye"
+    },
+    {
+      "regex": "^ECHO.*$",
+      "action": "echo"
+    }
+  ],
+  "rules": [
+    {
+      "regex": "(?i)^PING$",
+      "response": "pong"
+    },
+    {
+      "regex": "^HELLO$",
+      "response": "world"
+    }
+  ]
+}

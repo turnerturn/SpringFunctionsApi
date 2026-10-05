@@ -1,0 +1,29 @@
+{
+  "command": "start",
+  "port": 9000,
+  "timeoutMs": 60000,
+  "idleTimeoutMs": 5000,
+  "maxConnections": 16,
+  "maxMessages": 256,
+  "commands": [
+    {
+      "regex": "^SHUTDOWN$",
+      "action": "shutdown",
+      "response": "bye"
+    }
+  ],
+  "rules": [
+    {
+      "regex": "^13PC 01 001 1$",
+      "response": "13PC 01 001 1 Load Arm 1"
+    },
+    {
+      "regex": "^13LO$",
+      "response": "13OK"
+    },
+    {
+      "regex": "^13PV 01 001$",
+      "response": "13PV 01 001 1 Load Arm 1"
+    }
+  ]
+}

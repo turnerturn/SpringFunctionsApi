@@ -1,0 +1,37 @@
+server:
+  address: 127.0.0.1
+  port: 8080
+  tomcat:
+    threads:
+      max: 16
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+spring:
+  cloud:
+    function:
+      definition: fetchRabbitMqQueueMessage;sendRabbitMqMessage;exchangeTcpConversation;tcpServer;transformJsonData
+      configuration:
+        fetchRabbitMqQueueMessage:
+          output-header-mapping-expression:
+            contentType: "'application/json'"
+        exchangeTcpConversation:
+          output-header-mapping-expression:
+            contentType: "'application/json'"
+        tcpServer:
+          output-header-mapping-expression:
+            contentType: "'application/json'"
+        sendRabbitMqMessage:
+          output-header-mapping-expression:
+            contentType: "'application/json'"
+        transformJsonData:
+          output-header-mapping-expression:
+            contentType: "'application/json'"
+logging:
+  level:
+    com.example.functionsapi: INFO
+functions:
+  transform-json-data:
+    allowed-origins: ${TRANSFORM_ALLOWED_ORIGINS:http://127.0.0.1:8090}
